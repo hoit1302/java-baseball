@@ -3,6 +3,7 @@ package baseball.controller;
 import baseball.domain.Computer;
 import baseball.domain.GameResult;
 import baseball.domain.Player;
+import baseball.util.ErrorMessage;
 import baseball.util.Message;
 import baseball.view.InputView;
 import baseball.view.OutputView;
@@ -16,7 +17,7 @@ public class Controller {
         OutputView.printGameStart();
         do {
             playOneGame();
-        } while (chooseRestartOrNot());
+        } while (chooseRestartOrEnd());
     }
 
     void playOneGame() {
@@ -29,7 +30,7 @@ public class Controller {
         OutputView.printGameEnd();
     }
 
-    boolean chooseRestartOrNot() {
+    boolean chooseRestartOrEnd() {
         OutputView.printRestartOrEnd();
         String input = InputView.inputString();
         if (input.equals(Message.RESTART)) {
@@ -38,6 +39,6 @@ public class Controller {
         if (input.equals(Message.END)) {
             return false;
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT);
     }
 }

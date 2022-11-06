@@ -1,5 +1,6 @@
 package baseball.domain;
 
+import baseball.util.ErrorMessage;
 import baseball.util.Number;
 import baseball.view.InputView;
 import baseball.view.OutputView;
@@ -10,7 +11,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Player {
-    List<Integer> numbers = new ArrayList<>();
+    List<Integer> numbers;
+
+    public Player() {
+    }
+    public Player(List<Integer> numbers) {
+        this.numbers = numbers;
+    }
 
     public List<Integer> getNumbers() {
         return numbers;
@@ -29,19 +36,19 @@ public class Player {
 
     void checkInput(String input) {
         if (!Objects.equals(input.length(), Number.PRESCRIBED_DIGITS)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.PRESCRIBED_DIGITS);
         }
 
         List<Character> used = new ArrayList<>();
         for (char ch : input.toCharArray()) {
             if (!Character.isDigit(ch)) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(ErrorMessage.DIGIT);
             }
-            if (Objects.equals(Number.ZERO, ch)) {
-                throw new IllegalArgumentException();
+            if (Objects.equals(Number.ZERO, Character.getNumericValue(ch))) {
+                throw new IllegalArgumentException(ErrorMessage.NOT_ZERO);
             }
             if (used.contains(ch)) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(ErrorMessage.NOT_DUPLICATION);
             }
             used.add(ch);
         }
